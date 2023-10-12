@@ -11,9 +11,10 @@ defmodule Ticketis.Repo.Migrations.CreateUsersAuthTables do
       add :first_name, :string
       add :last_name, :string
       add :phone, :string
-      add :is_active, :boolean
-      add :company_name, :string
-      add :user_type, :string
+      add :birth_date, :date
+      add :cpf, :string
+      add :is_active, :boolean, default: true
+      add :authority, :string
       add :profile_image, :string
 
       timestamps()

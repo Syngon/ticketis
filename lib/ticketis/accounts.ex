@@ -90,7 +90,7 @@ defmodule Ticketis.Accounts do
 
   """
   def change_user_registration(%User{} = user, attrs \\ %{}) do
-    User.registration_changeset(user, attrs, hash_password: false, validate_email: false)
+    User.registration_changeset(user, attrs)
   end
 
   ## Settings
@@ -105,7 +105,7 @@ defmodule Ticketis.Accounts do
 
   """
   def change_user_email(user, attrs \\ %{}) do
-    User.email_changeset(user, attrs, validate_email: false)
+    User.email_changeset(user, attrs)
   end
 
   @doc """
@@ -184,7 +184,7 @@ defmodule Ticketis.Accounts do
 
   """
   def change_user_password(user, attrs \\ %{}) do
-    User.password_changeset(user, attrs, hash_password: false)
+    User.password_changeset(user, attrs)
   end
 
   @doc """

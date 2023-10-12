@@ -2,19 +2,30 @@ defmodule Ticketis.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @registration_fields [
+    :email,
+    :password,
+    :first_name,
+    :last_name,
+    :phone,
+    :birth_date,
+    :cpf,
+    :profile_image
+  ]
+
   schema "users" do
     field :first_name, :string
     field :last_name, :string
     field :phone, :string
-    field :is_active, :boolean
-    field :company_name, :string
-    field :user_type, Ecto.Enum, values: [:admin, :user, :tenant, :agent]
+    field :birth_date, :date
+    field :cpf, :string
+    field :is_active, :boolean, default: true
+    field :authority, Ecto.Enum, values: [:consumer, :producer, :admin]
     field :profile_image, :string
     field :email, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
-
 
     timestamps()
   end
@@ -44,7 +55,8 @@ defmodule Ticketis.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, @registration_fields)
+    |> put_change(:authority, :consumer)
     |> validate_email(opts)
     |> validate_password(opts)
   end
@@ -64,7 +76,9 @@ defmodule Ticketis.Accounts.User do
     # Examples of additional password validation:
     |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
     |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
-    |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
+    |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/,
+      message: "at least one digit or punctuation character"
+    )
     |> maybe_hash_password(opts)
   end
 
