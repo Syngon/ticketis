@@ -20,7 +20,12 @@ defmodule TicketisWeb.Router do
   scope "/", TicketisWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", EventsLive.Index, :index
+    live "/events/new", EventsLive.Index , :new
+    live "/events/:id/edit", EventsLive.Index , :edit
+
+    live "/events/:id", EventsLive.Show, :show
+    live "/events/:id/show/edit", EventsLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
@@ -46,7 +51,6 @@ defmodule TicketisWeb.Router do
   end
 
   ## Authentication routes
-
   scope "/", TicketisWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 

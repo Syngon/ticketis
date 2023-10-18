@@ -1,0 +1,32 @@
+<.header>
+  Events <%= @events.id %>
+  <:subtitle>This is a events record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/events/#{@events}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit events</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @events.name %></:item>
+  <:item title="Description"><%= @events.description %></:item>
+  <:item title="Image"><%= @events.image %></:item>
+  <:item title="Start date"><%= @events.start_date %></:item>
+  <:item title="End date"><%= @events.end_date %></:item>
+  <:item title="Is visible"><%= @events.is_visible %></:item>
+  <:item title="Is active"><%= @events.is_active %></:item>
+</.list>
+
+<.back navigate={~p"/events"}>Back to events</.back>
+
+<.modal :if={@live_action == :edit} id="events-modal" show on_cancel={JS.patch(~p"/events/#{@events}")}>
+  <.live_component
+    module={TicketisWeb.EventsLive.FormComponent}
+    id={@events.id}
+    title={@page_title}
+    action={@live_action}
+    events={@events}
+    patch={~p"/events/#{@events}"}
+  />
+</.modal>

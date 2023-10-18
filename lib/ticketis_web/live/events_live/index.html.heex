@@ -1,0 +1,47 @@
+<.header>
+  Listing Events
+  <:actions>
+    <.link patch={~p"/events/new"}>
+      <.button>New Events</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="events"
+  rows={@streams.events_collection}
+  row_click={fn {_id, events} -> JS.navigate(~p"/events/#{events}") end}
+>
+  <:col :let={{_id, events}} label="Name"><%= events.name %></:col>
+  <:col :let={{_id, events}} label="Description"><%= events.description %></:col>
+  <:col :let={{_id, events}} label="Image"><%= events.image %></:col>
+  <:col :let={{_id, events}} label="Start date"><%= events.start_date %></:col>
+  <:col :let={{_id, events}} label="End date"><%= events.end_date %></:col>
+  <:col :let={{_id, events}} label="Is visible"><%= events.is_visible %></:col>
+  <:col :let={{_id, events}} label="Is active"><%= events.is_active %></:col>
+  <:action :let={{_id, events}}>
+    <div class="sr-only">
+      <.link navigate={~p"/events/#{events}"}>Show</.link>
+    </div>
+    <.link patch={~p"/events/#{events}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, events}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: events.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="events-modal" show on_cancel={JS.patch(~p"/events")}>
+  <.live_component
+    module={TicketisWeb.EventsLive.FormComponent}
+    id={@events.id || :new}
+    title={@page_title}
+    action={@live_action}
+    events={@events}
+    patch={~p"/events"}
+  />
+</.modal>
