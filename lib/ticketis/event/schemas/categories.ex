@@ -7,6 +7,8 @@ defmodule Ticketis.Event.Schemas.Categories do
     field :name, :string
     field :created_by, :id
 
+    has_many :event, Ticketis.Event.Schemas.Events
+
     timestamps()
   end
 

@@ -15,7 +15,7 @@ defmodule Ticketis.Event do
 
   """
   def list_events do
-    Repo.all(Events)
+    Repo.all(Events) |> Repo.preload([:producer, :subject, :category])
   end
 
   @doc """

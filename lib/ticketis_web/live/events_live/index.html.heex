@@ -7,6 +7,30 @@
   </:actions>
 </.header>
 
+<%= for {_id, event} <- @streams.events_collection do %>
+<div class="max-w-sm rounded overflow-hidden shadow-lg">
+  <img class="w-full" src={"#{event.image}"} alt={"#{event.name}"} />
+  <div class="px-6 py-4">
+  <div label="Name" class="font-bold text-xl mb-2"><%= event.name %></div>
+    <p class="text-gray-700 text-base">
+      <%= event.description %>
+    </p>
+  </div>
+  <div class="px-6 pt-4 pb-2">
+    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+      <%= event.subject.name %>
+    </span>
+    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+      <%= event.category.name %>
+    </span>
+    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+      <%= event.start_date %>
+    </span>
+  </div>
+</div>
+<% end %>
+
+
 <.table
   id="events"
   rows={@streams.events_collection}

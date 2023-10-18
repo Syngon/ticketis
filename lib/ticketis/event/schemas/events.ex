@@ -10,9 +10,10 @@ defmodule Ticketis.Event.Schemas.Events do
     field :is_visible, :boolean, default: false
     field :name, :string
     field :start_date, :naive_datetime
-    field :producer_id, :id
-    field :subject_id, :id
-    field :category_id, :id
+
+    belongs_to :producer, Ticketis.Accounts.User
+    belongs_to :category, Ticketis.Event.Schemas.Categories
+    belongs_to :subject, Ticketis.Event.Schemas.Subjects
 
     timestamps()
   end
@@ -21,6 +22,14 @@ defmodule Ticketis.Event.Schemas.Events do
   def changeset(events, attrs) do
     events
     |> cast(attrs, [:name, :description, :image, :start_date, :end_date, :is_visible, :is_active])
-    |> validate_required([:name, :description, :image, :start_date, :end_date, :is_visible, :is_active])
+    |> validate_required([
+      :name,
+      :description,
+      :image,
+      :start_date,
+      :end_date,
+      :is_visible,
+      :is_active
+    ])
   end
 end
